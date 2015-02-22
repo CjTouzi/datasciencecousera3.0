@@ -1,13 +1,6 @@
----
-title: "Data Science Specialization in Coursera"
-author: "Cheng"
-date: "Friday, February 06, 2015"
-output:
-  html_document:
-    keep_md: yes
-    theme: readable
-    toc: yes
----
+# Data Science Specialization in Coursera
+Cheng  
+Friday, February 06, 2015  
 
 ### Introduction
 
@@ -113,8 +106,8 @@ Clustering organizes things that are close into groups.
         | `extral1`:[here][https://www.youtube.com/watch?v=F-nfsSq42ow]
     -   Dimension Reduction- PCA   
         | $X^TX = VDV^T = UDU^T$       
-        |     
-        | `extral1`:[here][https://www.youtube.com/watch?v=F-nfsSq42ow]     
+        | sfd   
+        | sdf,slkdjf       
         | sfd 
     
 -   How do we visualize the grouping      

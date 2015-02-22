@@ -66,6 +66,14 @@ img {
 <h4 class="date"><em>Friday, February 06, 2015</em></h4>
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#research-design">Research Design</a></li>
+<li><a href="#research-methods">Research Methods</a></li>
+<li><a href="#data-product-development">Data Product Development</a></li>
+</ul>
+</div>
 
 <div id="introduction" class="section level3">
 <h3>Introduction</h3>
@@ -145,8 +153,8 @@ img {
 <ul>
 <li>Hierarchical Clustering<br />| <code>A agglomerative approach</code>: 1) Find closest two things; 2) Put them together; 3) Find next<br />| <code>Requires</code>: 1) A defined distance; 2) A merging approach.<br />| <code>Procedures</code>: A tree showing how close things are to each other.<br />| <code>R example</code>: <a href="https://github.com/CjTouzi/courses/blob/gh-pages/04_ExploratoryAnalysis/hierarchicalClustering/Hierarchical%20clustering.pdf">here</a><br />| <code>Note 1</code>: picture may be unstable | <code>Note 2</code>: determistic</li>
 <li>K-means Clustering<br />| <code>A partioning approach</code>: 1) Fix a number of clusters; 2) Get “centroids” of each cluster; 3) Assign things to the closest centroid; 4) Recalculate centroids<br />| <code>Requires</code>: 1) A defined distance metric; 2) A number of clusters. 3) An initial guess as to cluster centroids<br />| <code>Procedures</code>: Final estimate of cluster centroids and an assignment of each point to clusters<br />| <code>R example</code>: <a href="https://github.com/CjTouzi/courses/blob/gh-pages/04_ExploratoryAnalysis/kmeansClustering/K-meansClustering_169.pdf">here</a><br />| <code>Note 1</code>: Require a number of clusters by eyes or cross validation. <a href="http://en.wikipedia.org/wiki/Determining_the_number_of_clusters_in_a_data_set">more</a><br />| <code>Note 2</code>: Not deterministic caused by different # of clusters and iterations</li>
-<li>Dimension Reduction- SVD<br />| sdf,slkdjf<br />| sfd<br />| sdf,slkdjf<br />| sfd</li>
-<li>Dimension Reduction- PCA<br />| sdf,slkdjf<br />| sfd<br />| sdf,slkdjf<br />| sfd</li>
+<li>Dimension Reduction- SVD<br />| <span class="math">\(X = UDV^T\)</span><br />| U(left sigular vector) and V(right sigular vector) are orthogonal,D(sigular value) is a diagonal matirx<br />| <code>R example</code>:[here][<a href="https://github.com/CjTouzi/courses/blob/master/04_ExploratoryAnalysis/dimensionReduction/index.md">https://github.com/CjTouzi/courses/blob/master/04_ExploratoryAnalysis/dimensionReduction/index.md</a>] | <code>extral1</code>:[here][<a href="https://www.youtube.com/watch?v=F-nfsSq42ow">https://www.youtube.com/watch?v=F-nfsSq42ow</a>]</li>
+<li>Dimension Reduction- PCA<br />| <span class="math">\(X^TX = VDV^T = UDU^T\)</span><br />| sfd<br />| sdf,slkdjf<br />| sfd</li>
 </ul></li>
 <li>How do we visualize the grouping
 <ul>
