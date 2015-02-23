@@ -226,12 +226,21 @@ img {
 <li>standard normal:<br />| def: When <span class="math">\(\mu = 0\)</span> and <span class="math">\(\sigma = 1\)</span><br />| RVs are often labeled <span class="math">\(Z\)</span> and The standard normal density function is labeled <span class="math">\(\phi\)</span> | percentiles of standard normal.<br /></li>
 <li>poisson:<br />| PMF: <span class="math">\(P(X = x; \lambda) = \frac{\lambda^x e^{-\lambda}}{x!}\)</span>,<span class="math">\(\lambda\)</span> is the mean number of events per unit time<br />| accurate approximation to the binomial distribution When <span class="math">\(n\)</span> is large and <span class="math">\(p\)</span> is smal,<span class="math">\(\lambda = n p\)</span><br /></li>
 </ul></li>
-<li>Asymptopia
+<li><a href="https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/02_02_Asymptopia.pdf">Asymptopia</a>
 <ul>
-<li>keywords: | LLN(Law of Large Numbers):<br />| CLT(Central Limit Theorem):</li>
+<li>keywords:<br />| LLN(Law of Large Numbers): <span class="math">\(X_i\)</span> are iid from a population with mean <span class="math">\(\mu\)</span> and variance <span class="math">\(\sigma^2\)</span> then <span class="math">\(\bar X_n\)</span> converges to <span class="math">\(\mu\)</span><br />| CLT(Central Limit Theorem): the distribution of <code>averages</code> of iid variables, properly normalized (<span class="math">\(\frac{\bar X_n - \mu}{\sigma / \sqrt{n}} = \frac{\mbox{Estimate} - \mbox{Mean of estimate}}{\mbox{Std. Err. of estimate}}\)</span>), becomes that of a standard normal as the sample size increases.<br />| confidence intervals of normal distribution: <span class="math">\(\bar X_n \pm z_{1-\alpha/2}\sigma / \sqrt{n}\)</span><br /></li>
 </ul></li>
-<li>t Confidence Interval</li>
-<li>Likeklihood</li>
+<li>t Confidence Interval
+<ul>
+<li>Chi-squared distribution<br />| def: <span class="math">\(\frac{(n - 1) S^2}{\sigma^2} \sim \chi^2_{n-1}\)</span>, <span class="math">\(S^2\)</span> is the sample variance from iid <span class="math">\(N(\mu,\sigma^2)\)</span> and <span class="math">\(n-1\)</span> degree of freedom</li>
+<li>Gosset’s t distribution<br />| def: <span class="math">\(\frac{Z}{\sqrt{\frac{\chi^2}{df}}}\)</span><br />| confidence intervals of t distribution: <span class="math">\(\bar X \pm t_{n-1,1-\alpha/2} S/\sqrt{n}\)</span> | note: (1) assume iid normal but it’s robust to this assumption (2) roughly symmetric and mound shaped (3) paired observations are often analyzed using the t-interval by taking difference (4) t quantiles become standard normal as large df (5) skewed distribution voiolated t interval assumpltions. (5) In skewed cases, consider taking logs or using different summary like median. (6) for highly discrete data, like binary, other intervals are available.<br /></li>
+</ul></li>
+<li>Likeklihood
+<ul>
+<li>def: Given a statistical probability mass function or density, say <span class="math">\(f(x, \theta)\)</span>, where <span class="math">\(\theta\)</span> is an unknown parameter, the likelihood is <span class="math">\(f\)</span> viewed as a function of <span class="math">\(\theta\)</span> for a fixed, observed value of <span class="math">\(x\)</span>.<br /></li>
+<li></li>
+<li></li>
+</ul></li>
 <li>Bayes</li>
 <li>Two Group Intervals</li>
 <li>Hypothesis Testing</li>

@@ -204,13 +204,23 @@ respectively
     -   poisson:     
         | PMF: $P(X = x; \lambda) = \frac{\lambda^x e^{-\lambda}}{x!}$,$\lambda$ is the mean number of events per unit time         
         | accurate approximation to the binomial distribution When $n$ is large and $p$ is smal,$\lambda = n p$       
--   Asymptopia
-    -   keywords: 
-        | LLN(Law of Large Numbers):        
-        | CLT(Central Limit Theorem): 
-        
+-   [Asymptopia](https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/02_02_Asymptopia.pdf)
+    -   keywords:   
+        | LLN(Law of Large Numbers): $X_i$ are iid from a population with mean $\mu$ and
+variance $\sigma^2$ then $\bar X_n$ converges to $\mu$     
+        | CLT(Central Limit Theorem): the distribution of `averages` of iid variables, properly normalized ($\frac{\bar X_n - \mu}{\sigma / \sqrt{n}} = \frac{\mbox{Estimate} - \mbox{Mean of estimate}}{\mbox{Std. Err. of estimate}}$), becomes that of a standard normal as the sample size increases.   
+        | confidence intervals of normal distribution: $\bar X_n \pm z_{1-\alpha/2}\sigma / \sqrt{n}$    
 -   t Confidence Interval
+    -   Chi-squared distribution        
+        | def: $\frac{(n - 1) S^2}{\sigma^2} \sim \chi^2_{n-1}$, $S^2$ is the sample variance from iid $N(\mu,\sigma^2)$ and $n-1$ degree of freedom
+    -   Gosset's t distribution     
+        | def: $\frac{Z}{\sqrt{\frac{\chi^2}{df}}}$         
+        | confidence intervals of t distribution: $\bar X \pm t_{n-1,1-\alpha/2} S/\sqrt{n}$
+        | note: (1) assume iid normal but it's robust to this assumption (2) roughly symmetric and mound shaped (3) paired observations are often analyzed using the t-interval by taking difference (4) t quantiles become standard normal as large df (5) skewed distribution voiolated t interval assumpltions. (5) In skewed cases, consider taking logs or using different summary like median. (6) for highly discrete data, like binary, other intervals are available.  
 -   Likeklihood
+    - def: Given a statistical probability mass function or density, say $f(x, \theta)$, where $\theta$ is an unknown parameter, the likelihood is $f$ viewed as a function of $\theta$ for a fixed, observed value of $x$.    
+    - 
+    - 
 -   Bayes
 -   Two Group Intervals
 -   Hypothesis Testing
