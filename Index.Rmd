@@ -132,6 +132,9 @@ Clustering organizes things that are close into groups.
         
 
 #### Statistical Inference
+
+Here I only put part of concepts and fomulas that are important or easy to remember. When looking the deviation or uitility of R codes, please refer back to the slides linked to each subjuct.    
+
 -   Paramount among our concerns are:
     -   Is the sample representative of the population that we'd like to draw inferences about?
     -   Are there known and observed, known and unobserved or unknown and unobserved variables that contaminate our conclusions?
@@ -226,15 +229,40 @@ variance $\sigma^2$ then $\bar X_n$ converges to $\mu$
         | note: (1) assume iid normal but it's robust to this assumption (2) roughly symmetric and mound shaped (3) paired observations are often analyzed using the t-interval by taking difference (4) t quantiles become standard normal as large df (5) skewed distribution voiolated t interval assumpltions. (5) In skewed cases, consider taking logs or using different summary like median. (6) for highly discrete data, like binary, other intervals are available.  
 -   [Likeklihood](https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/02_04_Likeklihood.pdf)
     - def: Given a statistical probability mass function or density, say $f(x, \theta)$, where $\theta$ is an unknown parameter, the likelihood is $f$ viewed as a function of $\theta$ for a fixed, observed value of $x$.    
-    - Interpretation of likelihoods
+    - Interpretation of likelihoods         
         | Ratios of likelihood values measure the relative evidence of one value of the unknown parameter to another    
         | Given a statistical model and observed data, all of the relevant information contained in the data regarding the unknown parameter is contained in the likelihood.   
-        | if $X_i$ are independent random variables, then their likelihoods multiply.
-    - 
--   Bayes 
-    -   def
--   Two Group Intervals
+        | if $X_i$ are independent random variables, then their likelihoods multiply. 
+-   [Bayes](https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/02_05_Bayes.pdf) 
+    -   def: $\mbox{Posterior} \propto \mbox{Likelihood} \times \mbox{Prior}$
+    -   beta distribution       
+        | def: The beta density depends on two parameters $\alpha$ and $\beta$ $\frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)} p ^ {\alpha - 1} (1 - p) ^ {\beta - 1} ~~~~\mbox{for} ~~ 0 \leq p \leq 1$               
+        | The beta distribution is a suitable model for the random behavior of percentages and proportions or between $0$ to $1$           
+    -   [conjugate prior](http://en.wikipedia.org/wiki/Conjugate_prior)         
+        | def: if the posterior distributions $p(\theta ~|~ x)$ are in the same family as the prior probability distribution $p(\theta)$, the prior and posterior are then called conjugate distributions, and the prior is called a conjugate prior for the likelihood function
+    -   [expample of bernoulli likelihood & beta prior](https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/02_05_Bayes.pdf)      
+    -   highest posterior density(HPD)          
+        | def: A $95\%$ credible interval, $[a, b]$ would satisfy $P(p \in [a, b] ~|~ x) = .95$
+    -   [website: bayesian inference](http://www.bayesian-inference.com/credible)
+-   [compare Two independent Groups of normal data](https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/03_01_TwoGroupIntervals.pdf)
+    -   pooled variance ($S_P$)     
+        | def: $S_p^2 = {(n_x - 1) S_x^2 + (n_y - 1) S_y^2}/(n_x + n_y - 2)$        
+        | unbiased estimator of $\sigma^2$ in equal variances case
+    -   equal variances case                
+        | differnece follows normal distribution: $\bar Y - \bar X \sim N\left(\mu_y - \mu_x, \sigma^2(\frac{1}{n_x} + \frac{1}{n_y})\right)$                 
+        | or $\bar Y - \bar X \sim N\left(\mu_y - \mu_x, S_P^2(\frac{1}{n_x} + \frac{1}{n_y})\right)$       
+        | freedom of t-statistic: $n_x+n_y-2$       
+        
+    -   Unequal variances case      
+        | differnece follows normal distribution: $\bar Y - \bar X \sim N\left(\mu_y - \mu_x, \frac{s_x^2}{n_x} + \frac{s_y^2}{n_y}\right)$
+        | freedom of t-statistic: $\frac{\left(S_x^2 / n_x + S_y^2/n_y\right)^2} {\left(\frac{S_x^2}{n_x}\right)^2 / (n_x - 1) + \left(\frac{S_y^2}{n_y}\right)^2 / (n_y - 1)}$ 
+
 -   Hypothesis Testing
+    -   null hypothesis:
+    -   Type 1 error:
+    -   Type 2 error: 
+    -   alpha:
+    
 -   p Values
 -   Power
 -   Multiple Testing

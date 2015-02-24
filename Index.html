@@ -230,19 +230,31 @@ img {
 <ul>
 <li>keywords:<br />| LLN(Law of Large Numbers): <span class="math">\(X_i\)</span> are iid from a population with mean <span class="math">\(\mu\)</span> and variance <span class="math">\(\sigma^2\)</span> then <span class="math">\(\bar X_n\)</span> converges to <span class="math">\(\mu\)</span><br />| CLT(Central Limit Theorem): the distribution of <code>averages</code> of iid variables, properly normalized (<span class="math">\(\frac{\bar X_n - \mu}{\sigma / \sqrt{n}} = \frac{\mbox{Estimate} - \mbox{Mean of estimate}}{\mbox{Std. Err. of estimate}}\)</span>), becomes that of a standard normal as the sample size increases.<br />| confidence intervals of normal distribution: <span class="math">\(\bar X_n \pm z_{1-\alpha/2}\sigma / \sqrt{n}\)</span><br /></li>
 </ul></li>
-<li>t Confidence Interval
+<li><a href="https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/02_03_tCIs.pdf">t Confidence Interval</a>
 <ul>
 <li>Chi-squared distribution<br />| def: <span class="math">\(\frac{(n - 1) S^2}{\sigma^2} \sim \chi^2_{n-1}\)</span>, <span class="math">\(S^2\)</span> is the sample variance from iid <span class="math">\(N(\mu,\sigma^2)\)</span> and <span class="math">\(n-1\)</span> degree of freedom</li>
 <li>Gosset’s t distribution<br />| def: <span class="math">\(\frac{Z}{\sqrt{\frac{\chi^2}{df}}}\)</span><br />| confidence intervals of t distribution: <span class="math">\(\bar X \pm t_{n-1,1-\alpha/2} S/\sqrt{n}\)</span> | note: (1) assume iid normal but it’s robust to this assumption (2) roughly symmetric and mound shaped (3) paired observations are often analyzed using the t-interval by taking difference (4) t quantiles become standard normal as large df (5) skewed distribution voiolated t interval assumpltions. (5) In skewed cases, consider taking logs or using different summary like median. (6) for highly discrete data, like binary, other intervals are available.<br /></li>
 </ul></li>
-<li>Likeklihood
+<li><a href="https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/02_04_Likeklihood.pdf">Likeklihood</a>
 <ul>
 <li>def: Given a statistical probability mass function or density, say <span class="math">\(f(x, \theta)\)</span>, where <span class="math">\(\theta\)</span> is an unknown parameter, the likelihood is <span class="math">\(f\)</span> viewed as a function of <span class="math">\(\theta\)</span> for a fixed, observed value of <span class="math">\(x\)</span>.<br /></li>
-<li></li>
-<li></li>
+<li>Interpretation of likelihoods<br />| Ratios of likelihood values measure the relative evidence of one value of the unknown parameter to another<br />| Given a statistical model and observed data, all of the relevant information contained in the data regarding the unknown parameter is contained in the likelihood.<br />| if <span class="math">\(X_i\)</span> are independent random variables, then their likelihoods multiply.</li>
 </ul></li>
-<li>Bayes</li>
-<li>Two Group Intervals</li>
+<li><a href="https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/02_05_Bayes.pdf">Bayes</a>
+<ul>
+<li>def: <span class="math">\(\mbox{Posterior} \propto \mbox{Likelihood} \times \mbox{Prior}\)</span></li>
+<li>beta distribution<br />| def: The beta density depends on two parameters <span class="math">\(\alpha\)</span> and <span class="math">\(\beta\)</span> <span class="math">\(\frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)} p ^ {\alpha - 1} (1 - p) ^ {\beta - 1} ~~~~\mbox{for} ~~ 0 \leq p \leq 1\)</span><br />| The beta distribution is a suitable model for the random behavior of percentages and proportions or between <span class="math">\(0\)</span> to <span class="math">\(1\)</span><br /></li>
+<li><a href="http://en.wikipedia.org/wiki/Conjugate_prior">conjugate prior</a><br />| def: if the posterior distributions <span class="math">\(p(\theta ~|~ x)\)</span> are in the same family as the prior probability distribution <span class="math">\(p(\theta)\)</span>, the prior and posterior are then called conjugate distributions, and the prior is called a conjugate prior for the likelihood function</li>
+<li><a href="https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/02_05_Bayes.pdf">expample of bernoulli likelihood &amp; beta prior</a><br /></li>
+<li>highest posterior density(HPD)<br />| def: A <span class="math">\(95\%\)</span> credible interval, <span class="math">\([a, b]\)</span> would satisfy <span class="math">\(P(p \in [a, b] ~|~ x) = .95\)</span></li>
+<li><a href="http://www.bayesian-inference.com/credible">website: bayesian inference</a></li>
+</ul></li>
+<li><a href="https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/03_01_TwoGroupIntervals.pdf">compare Two independent Groups of normal data</a>
+<ul>
+<li>pooled variance (<span class="math">\(S_P\)</span>)<br />| def: <span class="math">\(S_p^2 = {(n_x - 1) S_x^2 + (n_y - 1) S_y^2}/(n_x + n_y - 2)\)</span><br />| unbiased estimator of <span class="math">\(\sigma^2\)</span> in equal variances case</li>
+<li><p>equal variances case<br />| differnece follows normal distribution: <span class="math">\(\bar Y - \bar X \sim N\left(\mu_y - \mu_x, \sigma^2(\frac{1}{n_x} + \frac{1}{n_y})\right)\)</span><br />| or <span class="math">\(\bar Y - \bar X \sim N\left(\mu_y - \mu_x, S_P^2(\frac{1}{n_x} + \frac{1}{n_y})\right)\)</span><br />| freedom of t-statistic: <span class="math">\(n_x+n_y-2\)</span></p></li>
+<li>Unequal variances case<br />| differnece follows normal distribution: <span class="math">\(\bar Y - \bar X \sim N\left(\mu_y - \mu_x, \frac{s_x^2}{n_x} + \frac{s_y^2}{n_y}\right)\)</span> | freedom of t-statistic: <span class="math">\(\frac{\left(S_x^2 / n_x + S_y^2/n_y\right)^2} {\left(\frac{S_x^2}{n_x}\right)^2 / (n_x - 1) + \left(\frac{S_y^2}{n_y}\right)^2 / (n_y - 1)}\)</span></li>
+</ul></li>
 <li>Hypothesis Testing</li>
 <li>p Values</li>
 <li>Power</li>
