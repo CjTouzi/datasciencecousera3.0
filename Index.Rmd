@@ -257,18 +257,47 @@ variance $\sigma^2$ then $\bar X_n$ converges to $\mu$
         | differnece follows normal distribution: $\bar Y - \bar X \sim N\left(\mu_y - \mu_x, \frac{s_x^2}{n_x} + \frac{s_y^2}{n_y}\right)$
         | freedom of t-statistic: $\frac{\left(S_x^2 / n_x + S_y^2/n_y\right)^2} {\left(\frac{S_x^2}{n_x}\right)^2 / (n_x - 1) + \left(\frac{S_y^2}{n_y}\right)^2 / (n_y - 1)}$ 
 
--   Hypothesis Testing
-    -   null hypothesis:
-    -   Type 1 error:
-    -   Type 2 error: 
-    -   alpha:
-    
--   p Values
--   Power
--   Multiple Testing
--   Resampled Inference
-
-
+-   [Hypothesis Testing](https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/03_02_HypothesisTesting.pdf)
+    -   null hypothesis($H_0$):         
+        | The null hypothesis is assumed true and statistical evidence is required to reject it in favor of a research or alternative hypothesis
+    -   Type I error - $\alpha$     
+        | false positive
+        | incorrect reject of a true $H_0$
+    -   Type II error - $\beta$     
+        | false negtive
+        | fail to reject a false $H_0$
+-   [p Values](https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/03_03_pValues.pdf)
+    - def:the probability of finding the observed sample results, or "more extreme" results, when the null hypothesis is actually true. 
+-   [Power](https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/03_04_Power.pdf)
+    -   def: the probability of rejecting the null hypothesis when it is false  
+    -   $1-\beta$
+-   [controlling the false positive rate](https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/03_05_MultipleTesting.pdf)  
+    -   Problem: 
+        too many false positives when performing large number of tests
+    -   Bonferroni correction                  
+        | set your $\alpha$ levels          
+        | use $\alpha_n$= $\alpha/m$            
+        | call all P-values less than $\alpha_n$            
+        | Pros: Easy to calculate, conservative         
+        | Cons: too Conservative       
+    - False Discovery rate (FDR)
+        | Suppose you do $m$ tests          
+        | You want to control FDR at level $\alpha$ so $E\left[\frac{V}{R}\right]$          
+        | Calculate P-values normally           
+        | Order the P-values from smallest to largest $P_{(1)},...,P_{(m)}$         
+        | Call any $P_{(i)} \leq \alpha \times \frac{i}{m}$ significant                   
+-   [Resampled Inference](https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/03_06_resampledInference.pdf)
+    - jackknife             
+        | def: The jackknife deletes each observation and calculates an estimate based on the remaining of them      
+        | bias: $(n - 1) \left(\bar \theta - \hat \theta\right)$          
+        | standard error: $\left[\frac{n-1}{n}\sum_{i=1}^n (\hat \theta_i - \bar\theta )^2\right]^{1/2}$
+    - one bootstrap example             
+        | Sample $n$ observations with **replacement** from the observed data resulting in one simulated complete data set         
+        | Take the median of the simulated data set         
+        | Repeat above two steps times, resulting in simulated medians          
+        | then calculate mean, standard error and confidence interval of these medians                       
+        | Check more on: [An Introduction to the Bootstrap](http://www.amazon.com/Introduction-Bootstrap-Monographs-Statistics-Probability/dp/0412042312)
+        
 #### Regression Models
 #### Machine Learning 
 

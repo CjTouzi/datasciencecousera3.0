@@ -172,6 +172,7 @@ img {
 </div>
 <div id="statistical-inference" class="section level4">
 <h4>Statistical Inference</h4>
+<p>Here I only put part of concepts and fomulas that are important or easy to remember. When looking the deviation or uitility of R codes, please refer back to the slides linked to each subjuct.</p>
 <ul>
 <li>Paramount among our concerns are:
 <ul>
@@ -253,13 +254,34 @@ img {
 <ul>
 <li>pooled variance (<span class="math">\(S_P\)</span>)<br />| def: <span class="math">\(S_p^2 = {(n_x - 1) S_x^2 + (n_y - 1) S_y^2}/(n_x + n_y - 2)\)</span><br />| unbiased estimator of <span class="math">\(\sigma^2\)</span> in equal variances case</li>
 <li><p>equal variances case<br />| differnece follows normal distribution: <span class="math">\(\bar Y - \bar X \sim N\left(\mu_y - \mu_x, \sigma^2(\frac{1}{n_x} + \frac{1}{n_y})\right)\)</span><br />| or <span class="math">\(\bar Y - \bar X \sim N\left(\mu_y - \mu_x, S_P^2(\frac{1}{n_x} + \frac{1}{n_y})\right)\)</span><br />| freedom of t-statistic: <span class="math">\(n_x+n_y-2\)</span></p></li>
-<li>Unequal variances case<br />| differnece follows normal distribution: <span class="math">\(\bar Y - \bar X \sim N\left(\mu_y - \mu_x, \frac{s_x^2}{n_x} + \frac{s_y^2}{n_y}\right)\)</span> | freedom of t-statistic: <span class="math">\(\frac{\left(S_x^2 / n_x + S_y^2/n_y\right)^2} {\left(\frac{S_x^2}{n_x}\right)^2 / (n_x - 1) + \left(\frac{S_y^2}{n_y}\right)^2 / (n_y - 1)}\)</span></li>
+<li><p>Unequal variances case<br />| differnece follows normal distribution: <span class="math">\(\bar Y - \bar X \sim N\left(\mu_y - \mu_x, \frac{s_x^2}{n_x} + \frac{s_y^2}{n_y}\right)\)</span> | freedom of t-statistic: <span class="math">\(\frac{\left(S_x^2 / n_x + S_y^2/n_y\right)^2} {\left(\frac{S_x^2}{n_x}\right)^2 / (n_x - 1) + \left(\frac{S_y^2}{n_y}\right)^2 / (n_y - 1)}\)</span></p></li>
 </ul></li>
-<li>Hypothesis Testing</li>
-<li>p Values</li>
-<li>Power</li>
-<li>Multiple Testing</li>
-<li>Resampled Inference</li>
+<li><a href="https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/03_02_HypothesisTesting.pdf">Hypothesis Testing</a>
+<ul>
+<li>null hypothesis(<span class="math">\(H_0\)</span>):<br />| The null hypothesis is assumed true and statistical evidence is required to reject it in favor of a research or alternative hypothesis</li>
+<li>Type I error - <span class="math">\(\alpha\)</span><br />| false positive | incorrect reject of a true <span class="math">\(H_0\)</span></li>
+<li>Type II error - <span class="math">\(\beta\)</span><br />| false negtive | fail to reject a false <span class="math">\(H_0\)</span></li>
+</ul></li>
+<li><a href="https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/03_03_pValues.pdf">p Values</a>
+<ul>
+<li>def:the probability of finding the observed sample results, or “more extreme” results, when the null hypothesis is actually true.</li>
+</ul></li>
+<li><a href="https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/03_04_Power.pdf">Power</a>
+<ul>
+<li>def: the probability of rejecting the null hypothesis when it is false<br /></li>
+<li><span class="math">\(1-\beta\)</span></li>
+</ul></li>
+<li><a href="https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/03_05_MultipleTesting.pdf">controlling the false positive rate</a>
+<ul>
+<li>Problem: too many false positives when performing large number of tests</li>
+<li>Bonferroni correction<br />| set your <span class="math">\(\alpha\)</span> levels<br />| use <span class="math">\(\alpha_n\)</span>= <span class="math">\(\alpha/m\)</span><br />| call all P-values less than <span class="math">\(\alpha_n\)</span><br />| Pros: Easy to calculate, conservative<br />| Cons: too Conservative<br /></li>
+<li>False Discovery rate (FDR) | Suppose you do <span class="math">\(m\)</span> tests<br />| You want to control FDR at level <span class="math">\(\alpha\)</span> so <span class="math">\(E\left[\frac{V}{R}\right]\)</span><br />| Calculate P-values normally<br />| Order the P-values from smallest to largest <span class="math">\(P_{(1)},...,P_{(m)}\)</span><br />| Call any <span class="math">\(P_{(i)} \leq \alpha \times \frac{i}{m}\)</span> significant<br /></li>
+</ul></li>
+<li><a href="https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/03_06_resampledInference.pdf">Resampled Inference</a>
+<ul>
+<li>jackknife<br />| def: The jackknife deletes each observation and calculates an estimate based on the remaining of them<br />| bias: <span class="math">\((n - 1) \left(\bar \theta - \hat \theta\right)\)</span><br />| standard error: <span class="math">\(\left[\frac{n-1}{n}\sum_{i=1}^n (\hat \theta_i - \bar\theta )^2\right]^{1/2}\)</span></li>
+<li>one bootstrap example<br />| Sample <span class="math">\(n\)</span> observations with <strong>replacement</strong> from the observed data resulting in one simulated complete data set<br />| Take the median of the simulated data set<br />| Repeat above two steps times, resulting in simulated medians<br />| then calculate mean, standard error and confidence interval of these medians<br />| Check more on: <a href="http://www.amazon.com/Introduction-Bootstrap-Monographs-Statistics-Probability/dp/0412042312">An Introduction to the Bootstrap</a></li>
+</ul></li>
 </ul>
 </div>
 <div id="regression-models" class="section level4">
