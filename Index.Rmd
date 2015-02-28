@@ -170,14 +170,14 @@ Here I only put part of concepts and fomulas that are important or easy to remem
         | Chebyshev's inequality: $P(|x-\mu|>=k\sigma) <= 1/k^2$
 -   [Independence](https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/01_04_Independence.pdf)
     -    key words:     
-        | IID
-        | join probability of IIDS  
-        | covariance : $Cov(X,Y) = E[(X-\mu_x )(Y-\mu_y)] = E[XY]-E[X]E[Y]$
-        | correlation:  $Cor(X, Y) = Cov(X, Y) / \sqrt{Var(X) Var(y)}$  
-        | sample variance $S$: $S^2 = \frac{\sum_{i=1}^n (X_i - \bar X)^2}{n-1}$    
-        | variance of sample mean: $Var(\bar X)=\sigma^2/n$. $\sigma$ is the poluation variance.     
-        | standard error of sample mean: $\sigma/\sqrt n$   
-        | estimate population variance by sample variance: $S^2$ estimates $\sigma^2$; $S / \sqrt{n}$ estimates $\sigma / \sqrt{n}$ the standard error of the mean 
+        | IID                       
+        | join probability of IIDS                  
+        | covariance : $Cov(X,Y) = E[(X-\mu_x )(Y-\mu_y)] = E[XY]-E[X]E[Y]$     
+        | correlation:  $Cor(X, Y) = Cov(X, Y) / \sqrt{Var(X) Var(y)}$          
+        | sample variance $S$: $S^2 = \frac{\sum_{i=1}^n (X_i - \bar X)^2}{n-1}$            
+        | variance of sample mean: $Var(\bar X)=\sigma^2/n$. $\sigma$ is the poluation variance.           
+        | standard error of sample mean: $\sigma/\sqrt n$           
+        | estimate population variance by sample variance: $S^2$ estimates $\sigma^2$; $S /          \sqrt{n}$ estimates $\sigma / \sqrt{n}$ the standard error of the mean          
         
 -   [Conditional Probability](https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/01_05_ConditionalProbability.pdf)
     -   key words:      
@@ -299,6 +299,27 @@ variance $\sigma^2$ then $\bar X_n$ converges to $\mu$
         | Check more on: [An Introduction to the Bootstrap](http://www.amazon.com/Introduction-Bootstrap-Monographs-Statistics-Probability/dp/0412042312)
         
 #### Regression Models
+-   Simple Linear Regression
+    -   Model           
+        | def: $Y_i = \beta_1 X_{1i} + \beta_2 X_{2i} + \ldots + \beta_{p} X_{pi} + \epsilon_{i} = \sum_{k=1}^p X_{ik} \beta_j + \epsilon_{i}$, $\epsilon_{i} \sim N(0,\sigma^2)$                    
+        | Fitted response: $\hat Y_i = \sum_{k=1}^p X_{ik} \hat \beta_{k}$               
+        | Residuals: $e_i = Y_i - \hat Y_i$     
+        | Residual variance estimate: $\hat \sigma^2 = \frac{1}{n-p} \sum_{i=1}^n e_i ^2$              
+        | Variation of Model: Total Variation = Residual Variation + Regression Variation or $\sum_{i=1}^n (Y_i - \bar Y)^2 = \sum_{i=1}^n (Y_i - \hat Y_i)^2 + \sum_{i=1}^n (\hat Y_i - \bar Y)^2$            
+        | $R^2$:  the percentage of variation explained by the regression model.$\frac{\sum_{i=1}^n (\hat Y_i - \bar Y)^2}{\sum_{i=1}^n (Y_i - \bar Y)^2} = 1 - \frac{\sum_{i=1}^n (Y_i - \hat Y_i)^2}{\sum_{i=1}^n (Y_i - \bar Y)^2} = Cor(Y, X)^2$.      
+        | Least squares: minimizes $\sum_{i=1}^n \left(Y_i - \sum_{k=1}^p X_{ki} \beta_i\right)^2$                    
+        | [Coeffients, Intercepts and residuals using R](https://github.com/CjTouzi/courses/blob/master/07_RegressionModels/02_01_multivariate/index.md)     
+    -   Interpretation of the coeficient
+        | the expected change in the response per unit change in the regressor, holding all of the other regressors fixed      
+    -   Interpretation of the residuals     
+        | 
+    -   [Common problems in multivariate simulation](http://bcaffo.github.io/courses/07_RegressionModels/02_03_adjustment/#1)
+    -   Diagnostics
+-   Generalized Linear Models (GLM)     
+    -   binary
+    -   count
+    
+
 #### Machine Learning 
 
 
