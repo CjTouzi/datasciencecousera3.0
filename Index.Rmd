@@ -306,23 +306,52 @@ variance $\sigma^2$ then $\bar X_n$ converges to $\mu$
         | Residuals: $e_i = Y_i - \hat Y_i$     
         | Residual variance estimate: $\hat \sigma^2 = \frac{1}{n-p} \sum_{i=1}^n e_i ^2$              
         | Variation of Model: Total Variation = Residual Variation + Regression Variation or $\sum_{i=1}^n (Y_i - \bar Y)^2 = \sum_{i=1}^n (Y_i - \hat Y_i)^2 + \sum_{i=1}^n (\hat Y_i - \bar Y)^2$            
-        | $R^2$:  the percentage of variation explained by the regression model.$\frac{\sum_{i=1}^n (\hat Y_i - \bar Y)^2}{\sum_{i=1}^n (Y_i - \bar Y)^2} = 1 - \frac{\sum_{i=1}^n (Y_i - \hat Y_i)^2}{\sum_{i=1}^n (Y_i - \bar Y)^2} = Cor(Y, X)^2$.      
+        | $R^2$:  the percentage of variation explained by the regression model.$\frac{\sum_{i=1}^n (\hat Y_i - \bar Y)^2}{\sum_{i=1}^n (Y_i - \bar Y)^2} = 1 - \frac{\sum_{i=1}^n (Y_i - \hat Y_i)^2}{\sum_{i=1}^n (Y_i - \bar Y)^2} = Cor(Y, X)^2$. note: inflate by number of regressors   
         | Least squares: minimizes $\sum_{i=1}^n \left(Y_i - \sum_{k=1}^p X_{ki} \beta_i\right)^2$                    
         | [Coeffients, Intercepts and residuals using R](https://github.com/CjTouzi/courses/blob/master/07_RegressionModels/02_01_multivariate/index.md)     
     -   Interpretation of the coeficient
-        | the expected change in the response per unit change in the regressor, holding all of the other regressors fixed      
-    -   Interpretation of the residuals     
-        | 
+        | the expected change in the response per unit change in the regressor, holding all of the other regressors fixed              
     -   [Common problems in multivariate simulation](http://bcaffo.github.io/courses/07_RegressionModels/02_03_adjustment/#1)
-    -   Diagnostics
--   Generalized Linear Models (GLM)     
-    -   binary
-    -   count
-    
-
-#### Machine Learning 
-
-
+    -   [Diagnostics](http://bcaffo.github.io/courses/07_RegressionModels/02_04_residuals_variation_diagnostics/#6)         
+        | Outliers : influence(hatvalues), leverage (cooks.distance)    
+        | Residuals: normality(Residual QQ plots), Heteroskedasticity(Residual Plots)       
+        | feature selection: underfiting, more bias; Overfitting, more variation. [F-test on nested model explanation](http://people.reed.edu/~jones/Courses/P24.pdf), [F-test on nested model R example](http://bcaffo.github.io/courses/07_RegressionModels/02_05_multipleVariables/#14)
+-   Generalized Linear Models (GLM)
+    -   Three components        
+        | A probability distribution from the exponential family        
+        | A linear predictor $\eta_i = \sum_{k=1}^p X_{ik} \beta_k$         
+        | A link function g such that $E(Y) = \mu = g^{-1}( \eta )$       
+    -   [GLM in R](http://data.princeton.edu/R/glms.html)           
+    -   binary: logistic regression (predict the probability)   
+        | Problem: outcomes that have two values. Example: Alive/dead, Win/loss, Success/Failure
+        | Model: $log\frac{P(Y=1|X)}{1-P(Y=1|X)} = W^TX$        
+        | Odds definiation: $\frac{P(Y=1|X)}{1-P(Y=1|X)}$           
+        | Logistic Function: $\sigma(a) = \frac{1}{1+e^{-a}}$     
+        | [R example](https://github.com/CjTouzi/courses/blob/master/07_RegressionModels/03_02_binaryOutcomes/index.md)                 
+        | Significance Test: Chisquare Test             
+        | [mathematicalmonk's channel](https://www.youtube.com/watch?v=-Z2a_mzl9LM)                         
+    -   Poisson     
+        | Problem: counts, rate. Example:calls to a call center, percent of child passing a test            
+        | Model: $log(Y)=W^TX$      
+        | [R example](https://github.com/CjTouzi/courses/blob/master/07_RegressionModels/03_03_countOutcomes/index.md)  
+        | [Log Linear on Titanic](http://ww2.coastal.edu/kingw/statistics/R-tutorials/loglin.html)  
+        
+#### Machine Learning       
+- General Issues       
+    - The "Best" Machine Learning Method        
+        | Interpretable         
+        | Simple    
+        | Accurate      
+        | Fast  
+        | Scalable  
+    - Overfitting       
+        | in sample error: The error rate you get on the same data set that you build your predictors           
+        | Out of sample error: the error rate get on a new data set     
+    - prediction study design   
+        | define your error rate    
+        | Split your data into training, test and validation(optional)          
+        | select model by cross-validation  
+        | [A note](http://research.cs.tamu.edu/prism/lectures/iss/iss_l13.pdf)
 ### Data Product Development
 
 ===========================
