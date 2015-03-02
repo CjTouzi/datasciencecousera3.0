@@ -74,6 +74,7 @@ Now I reorganize the contents in a function point of view for future references.
     -   use color, size, shape to add dimensions   
     -   spinning plots   
     -   3-d plots    
+    -   pair plot
     
 **Plotting Tools in R** 
 
@@ -336,15 +337,37 @@ variance $\sigma^2$ then $\bar X_n$ converges to $\mu$
         | Simple    
         | Accurate      
         | Fast  
-        | Scalable  
-    - Overfitting       
-        | in sample error: The error rate you get on the same data set that you build your predictors           
-        | Out of sample error: the error rate get on a new data set     
+        | Scalable    
     - prediction study design   
-        | define your error rate    
-        | Split your data into training, test and validation(optional)          
-        | select model by cross-validation  
-        | [A note](http://research.cs.tamu.edu/prism/lectures/iss/iss_l13.pdf)
+        
+        | Split your data into training, test and validation(optional). 
+        | select model by cross-validation              
+        | extra resource: [1](http://research.cs.tamu.edu/prism/lectures/iss/iss_l13.pdf),[2]()
+    - cross validation          
+        | Method: Hold-out, K-fold, random sampling, leave one out. 
+        | Purpose: model selection, true error rate estimate    
+- ML using caret
+    -   [preProcess](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/014basicPreprocessing.pdf)             
+        | standarizing       
+        | scalling      
+        | log       
+        | imputing         
+        | box-cox transform (improve normality)
+    _   [data slicing](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/011dataSlicing.pdf)       
+    -   [feature plotting](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/013plottingPredictors.pdf)           
+    -   [train options](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/012trainOptions.pdf)      
+        | Metric: Contious outcome(RMSE, $R^2$), Categorical outcomes(Accuracy, Kappa)  
+        | resampling control: method(bootstrapping, boot632, cv, repeatedcv, LOOCV)     
+    -   caret example       
+        | [linear regression](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/017predictingWithRegression.pdf)    
+        | [multiple covariate ilinear regression](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/018predictingWithRegressionMC.pdf)     
+        | [tree](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/019predictingWithTrees.pdf)   
+        | [bagging](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/020bagging.pdf)         
+        | [Random forests]()
+    -   
+        
+-         
+        
 ### Data Product Development
 
 ===========================
@@ -359,11 +382,13 @@ variance $\sigma^2$ then $\bar X_n$ converges to $\mu$
 #### UI tools
 
 - shiny
-- yhat
+- yhat  
 - github
 
 #### R Language Tools 
 - basics
 [startupjing@github](https://github.com/startupjing/Tech_Notes/blob/master/R/R_language.md)
 - packages
+    -   caret     
+    -   dplyr
 

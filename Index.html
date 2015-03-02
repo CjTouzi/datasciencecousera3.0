@@ -71,6 +71,7 @@ img {
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#research-design">Research Design</a></li>
 <li><a href="#research-methods">Research Methods</a></li>
+<li><a href="#data-product-development">Data Product Development</a></li>
 </ul>
 </div>
 
@@ -137,7 +138,8 @@ img {
 <li>Multiple/Overlayed 2-D plots or coplot<br /></li>
 <li>use color, size, shape to add dimensions<br /></li>
 <li>spinning plots<br /></li>
-<li>3-d plots</li>
+<li>3-d plots<br /></li>
+<li>pair plot</li>
 </ul></li>
 </ul>
 <p><strong>Plotting Tools in R</strong></p>
@@ -211,7 +213,7 @@ img {
 </ul></li>
 <li><a href="https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/01_04_Independence.pdf">Independence</a>
 <ul>
-<li>key words:<br />| IID<br />| join probability of IIDS<br />| covariance : <span class="math">\(Cov(X,Y) = E[(X-\mu_x )(Y-\mu_y)] = E[XY]-E[X]E[Y]\)</span><br />| correlation: <span class="math">\(Cor(X, Y) = Cov(X, Y) / \sqrt{Var(X) Var(y)}\)</span><br />| sample variance <span class="math">\(S\)</span>: <span class="math">\(S^2 = \frac{\sum_{i=1}^n (X_i - \bar X)^2}{n-1}\)</span><br />| variance of sample mean: <span class="math">\(Var(\bar X)=\sigma^2/n\)</span>. <span class="math">\(\sigma\)</span> is the poluation variance.<br />| standard error of sample mean: <span class="math">\(\sigma/\sqrt n\)</span><br />| estimate population variance by sample variance: <span class="math">\(S^2\)</span> estimates <span class="math">\(\sigma^2\)</span>; <span class="math">\(S / \sqrt{n}\)</span> estimates <span class="math">\(\sigma / \sqrt{n}\)</span> the standard error of the mean</li>
+<li>key words:<br />| IID<br />| join probability of IIDS<br />| covariance : <span class="math">\(Cov(X,Y) = E[(X-\mu_x )(Y-\mu_y)] = E[XY]-E[X]E[Y]\)</span><br />| correlation: <span class="math">\(Cor(X, Y) = Cov(X, Y) / \sqrt{Var(X) Var(y)}\)</span><br />| sample variance <span class="math">\(S\)</span>: <span class="math">\(S^2 = \frac{\sum_{i=1}^n (X_i - \bar X)^2}{n-1}\)</span><br />| variance of sample mean: <span class="math">\(Var(\bar X)=\sigma^2/n\)</span>. <span class="math">\(\sigma\)</span> is the poluation variance.<br />| standard error of sample mean: <span class="math">\(\sigma/\sqrt n\)</span><br />| estimate population variance by sample variance: <span class="math">\(S^2\)</span> estimates <span class="math">\(\sigma^2\)</span>; <span class="math">\(S /          \sqrt{n}\)</span> estimates <span class="math">\(\sigma / \sqrt{n}\)</span> the standard error of the mean</li>
 </ul></li>
 <li><a href="https://github.com/CjTouzi/courses/blob/master/06_StatisticalInference/lectures/01_05_ConditionalProbability.pdf">Conditional Probability</a>
 <ul>
@@ -308,12 +310,25 @@ img {
 <li>General Issues
 <ul>
 <li>The “Best” Machine Learning Method<br />| Interpretable<br />| Simple<br />| Accurate<br />| Fast<br />| Scalable<br /></li>
-<li>Overfitting<br />| in sample error: The error rate you get on the same data set that you build your predictors<br />| Out of sample error: the error rate get on a new data set<br /></li>
-<li>prediction study design<br />| define your error rate<br />| Split your data into training, test and validation(optional)<br />| select model by cross-validation<br />| <a href="http://research.cs.tamu.edu/prism/lectures/iss/iss_l13.pdf">A note</a> ### Data Product Development</li>
+<li><p>prediction study design</p>
+| Split your data into training, test and validation(optional). | select model by cross-validation<br />| extra resource: <a href="http://research.cs.tamu.edu/prism/lectures/iss/iss_l13.pdf">1</a>,<a href>2</a></li>
+<li>cross validation<br />| Method: Hold-out, K-fold, random sampling, leave one out. | Purpose: model selection, true error rate estimate<br /></li>
 </ul></li>
+<li>ML using caret
+<ul>
+<li><a href="https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/014basicPreprocessing.pdf">preProcess</a><br />| standarizing<br />| scalling<br />| log<br />| imputing<br />| box-cox transform (improve normality) _ <a href="https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/011dataSlicing.pdf">data slicing</a><br /></li>
+<li><a href="https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/013plottingPredictors.pdf">feature plotting</a><br /></li>
+<li><a href="https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/012trainOptions.pdf">train options</a><br />| Metric: Contious outcome(RMSE, <span class="math">\(R^2\)</span>), Categorical outcomes(Accuracy, Kappa)<br />| resampling control: method(bootstrapping, boot632, cv, repeatedcv, LOOCV)<br /></li>
+<li>caret example<br />| <a href="https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/017predictingWithRegression.pdf">linear regression</a><br />| <a href="https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/018predictingWithRegressionMC.pdf">multiple covariate ilinear regression</a><br />| <a href="https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/019predictingWithTrees.pdf">tree</a><br />| <a href="https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/020bagging.pdf">bagging</a><br />| <a href>Random forests</a></li>
+<li></li>
+</ul></li>
+<li></li>
 </ul>
-<p>===========================</p>
 </div>
+</div>
+<div id="data-product-development" class="section level3">
+<h3>Data Product Development</h3>
+<p>===========================</p>
 <div id="reporting-tools" class="section level4">
 <h4>Reporting Tools</h4>
 <ul>
@@ -327,7 +342,7 @@ img {
 <h4>UI tools</h4>
 <ul>
 <li>shiny</li>
-<li>yhat</li>
+<li>yhat<br /></li>
 <li>github</li>
 </ul>
 </div>
@@ -335,7 +350,11 @@ img {
 <h4>R Language Tools</h4>
 <ul>
 <li>basics <a href="https://github.com/startupjing/Tech_Notes/blob/master/R/R_language.md"><a href="mailto:startupjing@github">startupjing@github</a></a></li>
-<li>packages</li>
+<li>packages
+<ul>
+<li>caret<br /></li>
+<li>dplyr</li>
+</ul></li>
 </ul>
 </div>
 </div>
