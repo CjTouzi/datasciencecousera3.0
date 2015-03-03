@@ -3,6 +3,8 @@ title: "Data Science Specialization in Coursera"
 author: "Cheng"
 date: "Friday, February 06, 2015"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     keep_md: yes
     theme: readable
