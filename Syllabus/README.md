@@ -2,36 +2,24 @@
 Cheng  
 Friday, February 06, 2015  
 
-### Introduction
+### Introduction            
 
-===========================
+The purpose of this page is to collect the tools, knowledge, information, methods and concepts that relate to the data science. The basic structure is following to data science specialization in coursera. 
 
-This is site is meant to be a cheat sheet of Data Science Specialization in coursera.
-
-I started the data science specialization at Dec 1, 2015 and finished it at Feb 17, 2015.
-Now I reorganize the contents in a function point of view for future references. 
+In additiion, I roughly divide it into three entries namely Design, methods and product development. Research Design focuses on the questions like how to ask a right question, how to get a solid conclusion, what's genergal approach to evaluate a study and so on. The Reasearch Method portion itemizes the tools on visualizations, statistics and machine learnings. The format of itemization would be giving both the basic procedures and R examples (probally python example in the future). The purpose is to build a tool-box with both desciption and tutorial. The last portion Product development contain the information that is not direct related to data science research but more to the rendering process of the research product like reprots and webpages. 
 
 
-### Research Design
-
-===========================
-
-**Looking for a topic**
-
-- company project  
-- kaggle  
-- crowdanalytix  
-- kdnuggets  
-- drivendata.org  
-- hackerrank  
-
+### Research Design     
 
 **Formulating a problem** 
 
+-   [Question, Modeling, and Validation (QMV) process of data analysis](https://www.udacity.com/course/ud919)           
 
-### Research Methods
+    -   turn a vague question into a statistical one that can be analyzed with statistics and machine learning        
+    -    build rigorous mathematical, statistical, and machine learning models so you can make accurate predictions        
+    -   use fundamental and important metrics that you can use to grade the performance of the models that you've build
 
-===========================
+### Research Methods        
 
 #### Analytic Graphics
 
@@ -117,7 +105,7 @@ Clustering organizes things that are close into groups.
         | `Jason Liu on Quora`:[here](http://www.quora.com/What-is-an-intuitive-explanation-of-singular-value-decomposition-SVD)
     
 -   How do we visualize the grouping      
-    -   Dendrogram
+    -   Dendrogram              
         | `R example`: [1](https://github.com/CjTouzi/courses/blob/master/04_ExploratoryAnalysis/clusteringExample/index.md),[2](https://github.com/CjTouzi/courses/blob/master/04_ExploratoryAnalysis/hierarchicalClustering/index.md)
     -   Heatmap  
         | `R example`: [1](https://github.com/CjTouzi/courses/blob/master/04_ExploratoryAnalysis/dimensionReduction/index.md),[2](https://github.com/CjTouzi/courses/blob/master/04_ExploratoryAnalysis/hierarchicalClustering/index.md)
@@ -372,7 +360,6 @@ variance $\sigma^2$ then $\bar X_n$ converges to $\mu$
    
 ### Data Product Development
 
-===========================
 
 #### Reporting Tools 
 
