@@ -345,22 +345,22 @@ variance $\sigma^2$ then $\bar X_n$ converges to $\mu$
         | Accurate      
         | Fast  
         | Scalable    
-    - prediction study design   
-        
-        | Split your data into training, test and validation(optional). 
-        | select model by cross-validation              
-        | extra resource: [1](http://research.cs.tamu.edu/prism/lectures/iss/iss_l13.pdf),[2]()
+    - prediction study design           
+        | Split your data into training, test and validation(optional).             
+        | select model by cross-validation or by experiences                         
+        | extra resource: [1](http://research.cs.tamu.edu/prism/lectures/iss/iss_l13.pdf)
     - cross validation          
-        | Method: Hold-out, K-fold, random sampling, leave one out. 
-        | Purpose: model selection, true error rate estimate    
-- ML using caret
+        | Method: Hold-out, K-fold, random sampling, leave one out.             
+        | Purpose: model selection, true error rate estimate  
+        | extra resource: [1](http://www.autonlab.org/tutorials/overfit10.pdf)          
+- ML using R                        
     -   [preProcess](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/014basicPreprocessing.pdf)             
         | standarizing       
         | scalling      
         | log       
         | imputing         
-        | box-cox transform (improve normality)
-    _   [data slicing](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/011dataSlicing.pdf)       
+        | box-cox transform (improve normality)         
+    -   [data slicing](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/011dataSlicing.pdf)       
     -   [feature plotting](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/013plottingPredictors.pdf)           
     -   [train options](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/012trainOptions.pdf)      
         | Metric: Contious outcome(RMSE, $R^2$), Categorical outcomes(Accuracy, Kappa)  
@@ -370,11 +370,13 @@ variance $\sigma^2$ then $\bar X_n$ converges to $\mu$
         | [multiple covariate ilinear regression](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/018predictingWithRegressionMC.pdf)     
         | [tree](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/019predictingWithTrees.pdf)   
         | [bagging](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/020bagging.pdf)         
-        | [Random forests]()
-    -   
+        | [Random forests](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/021randomForests.pdf)        
+        | [boosting](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/022boosting.pdf)          
+        | [Regularized regression](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/024regularizedRegression.pdf)               
+        | [combinding predictors](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/025combiningPredictors.pdf)    
+        | [time series](https://github.com/CjTouzi/courses/blob/master/08_PracticalMachineLearning/lectures/027forecasting.pdf)      
         
--         
-        
+   
 ### Data Product Development
 
 ===========================
