@@ -14,25 +14,24 @@ output:
 
 ===========================
 
-In this article, we report a method to predict common incorrect gestures during barbell lifts using random forest methods with a overall accuracy 0.9946 in the validation set and 100 % accuracy in the testing set.
+This project aims to build a prediction model on common incorrect gestures during barbell lifts based on several variables collected by accelerometers. See more details on the project description [here](http://groupware.les.inf.puc-rio.br/har)(see the section on the Weight Lifting Exercise Dataset). As a result, we report a random forest model with a overall accuracy 0.9946 in the validation set and 100 % accuracy in the testing set. 
 
 
 ### Background
 
 ===========================
 
-Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. In this project, we use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. Six young health participants were asked to perform one set of 10 repetitions of the Unilateral Dumbbell Biceps Curl in five different fashions: exactly according to the specification (Class A), throwing the elbows to the front (Class B), lifting the dumbbell only halfway (Class C), lowering the dumbbell only halfway (Class D) and throwing the hips to the front (Class E).More information is available from the website [here](http://groupware.les.inf.puc-rio.br/har) (see the section on the Weight Lifting Exercise Dataset). 
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. In this project, we use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. Six young health participants were asked to perform one set of 10 repetitions of the Unilateral Dumbbell Biceps Curl in five different fashions: exactly according to the specification (Class A), throwing the elbows to the front (Class B), lifting the dumbbell only halfway (Class C), lowering the dumbbell only halfway (Class D) and throwing the hips to the front (Class E). 
+
 
 Read [more](http://groupware.les.inf.puc-rio.br/har#ixzz3RDCCaU6P)
-
-
 
 
 ### Feature Extraction & Selection
 
 ===========================
 
-In this setion, we will load both the training and testing dataset downloaded [here](http://groupware.les.inf.puc-rio.br/static/WLE/WearableComputing_weight_lifting_exercises_biceps_curl_variations.csv). The `53` activity quality related features are extracted both in training (named as `build`) and testing dataset (named as `test`). Then we divide `build` dataset into training (named as `train`) and validation (named as `val`) dataset. Finally we have three dataset: The `train` for model building, `val` data for out-of-sample error measurement and `test` for final model test.  
+In this setion, we will load both the training and testing dataset downloaded [here](http://groupware.les.inf.puc-rio.br/static/WLE/WearableComputing_weight_lifting_exercises_biceps_curl_variations.csv). The `53` activity quality related features are extracted both in training (named as `build`) and testing dataset (named as `test`). Then we save 70% of `build` dataset as training set (named as `train`) and the remaining 30% as a validation (named as `val`) dataset. Finally we have three dataset: The `train` for model building. `val` data for out-of-sample error measurement and model selection. `test` for final model test. 
 
 ```{r, echo=TRUE, results='hide', cache=TRUE, warning=FALSE}
 
@@ -52,10 +51,11 @@ test[,7:159] <- sapply(test[,7:159], as.numeric)
 
 ## feature extraction & selection
 
-# activity features
+# select the activity features only
 build <- build[8:160]
 test <- test[8:160]
 
+# since test set only contains 20 observations. 
 # remove features that contains NAs in test set
 nas <- is.na(apply(test,2,sum))
 
@@ -70,14 +70,22 @@ rm(inTrain,nas,build)
 
 ```
 
-As a result, the dimension of `train` is `r  dim(train)` in the order of number of observations and features. Similarly, the dimension of `val` and `test` are  `r  dim(val)` and `r  dim(test)`
+Here is a summary of the final datasets for model building after feature extraction. 
 
+|Dataset | # of observations | # of features|
+|--------|-------------------|--------------|
+|training |`r  nrow(train)`|`r  ncol(train)`|
+|validation |`r  nrow(val)`|`r  ncol(val)`|
+|test| `r  nrow(test)`|`r  ncol(test)`|
 
 ### Classification Model
 
 ===========================
 
-In this setion, we build both random forest and boosting model for activity classfication. We compare the overall accuracy of two models and random forest mdoel shows better performance. 
+In this setion, we proceed to testing some prediction models using the package caret and select one with the best out-of-sample error as our prediction model. 
+
+
+we build random forest, boosting model and bagging for activity classfication. We compare the overall accuracy of two models and random forest mdoel shows better performance. 
 
 Here shows a table of performance
 
@@ -88,38 +96,100 @@ Here shows a table of performance
 |Boosting|0.9593798|0.9486100|0.004351168|0.005487971|
 
 
+#### Classification tree
+
+In the first test, we use a regression tree with the method `rpart`. 
+
+```{r, echo=TRUE, results='hold', cache=TRUE, warning=FALSE}
+library(rattle)
+library(rpart.plot)
+library(rpart)
+##  regression tree model
+# set.seed(123)
+# Mod0 <- train(classe ~ .,data=train, method="rpart")
+# save(Mod0,file="Mod0.RData")
+
+load("Mod0.RData")
+fancyRpartPlot(Mod0$finalModel)
+
+# out-of-sample errors of regression tree model using validation dataset 
+pred0 <- predict(Mod0, val)
+cm0 <- confusionMatrix(pred0, val$classe)
+cm0$table
+library(knitr)
+# kable(cm0$table)
+
+```
+    
+The model (shows in the tree plot) preforms poorly with a overall acururacy `r round(cm0$overall[1],2)`. Specifically, it fails to indentify the class D (see confusion matrix above) and tends to asign most of cases to the class A. 
 
 
-```{r, echo=TRUE, results='hide', cache=TRUE, warning=FALSE}
+#### Random forest
+
+Now, we run a random forest algorithm. `caret` use cross validation to select the number of the predictors. Here we use three fold cross validation in this model due the computational cost.   
+
+
+```{r, echo=TRUE, results='hold', cache=TRUE, warning=FALSE}
 
 set.seed(123)
 
 # random forest model
-Mod1 <- train(classe ~ ., method = "rf", 
-               data = train, importance = T, 
-               trControl = trainControl(method = "cv", number = 3))
+# system.time(Mod1 <- train(classe ~ ., method = "rf", 
+#                data = train, importance = T, 
+#                trControl = trainControl(method = "cv", number = 3)))
+# save(Mod1,file="Mod1.RData")
 
-
+load("Mod1.RData")
 # Mod1$finalModel
+vi <- varImp(Mod1)
+vi$importance[1:10,]
 
 # out-of-sample errors of random forest model using validation dataset 
 pred1 <- predict(Mod1, val)
 cm1 <- confusionMatrix(pred1, val$classe)
 
+# summary of final model
+# Mod1$finalModel
+plot(Mod1)
+plot(Mod1$finalModel)
+plot(varImp(Mod1), top = 10)
 
+
+```
+
+The cross validation graph shows that the model with 27 predictors is selected by the best accuracy. The final model plot tells that the overall error converge at around 100 trees. So it is possible to speed up our algo by tuning the number of trees. The acururacy of the random forest model is `r round(Mod1$results[2,2],2)`. A list of top ten important variables in the model is given regarding each class of activity.  
+
+#### Boosting
+
+```{r, echo=TRUE, results='hide', cache=TRUE, warning=FALSE}
 # boost fitting model
-Mod2 <- train(classe ~ ., 
-                  method = "gbm", 
-                  data = train, 
-                  verbose = F, 
-                  trControl = trainControl(method = "cv", number = 3))
+# system.time(Mod2 <- train(classe ~ ., 
+#                   method = "gbm", 
+#                   data = train, 
+#                   verbose = F, 
+#                   trControl = trainControl(method = "cv", number = 3)))
+# save(Mod2,file="Mod2.RData")
 
+load("Mod2.RData")
 
 # out-of-sample errors using validation dataset 
 pred2 <- predict(Mod2, val)
 cm2 <- confusionMatrix(pred2, val$classe)
 
 ```
+
+
+
+### Bagging
+
+```{r, echo=TRUE, results='hold', cache=TRUE, warning=FALSE}
+
+
+
+```
+
+
+
 
 We plot out both specificity versus sensitivity for both random forest and boosting model.The figure shows random forest is better in both aspects. Therefore, in the final test, we will only use random forest.
 
@@ -135,6 +205,7 @@ plot(cm2$byClass, main="boosting", xlim=c(0.93, 1.001))
 text(cm2$byClass[,1]+0.005, cm2$byClass[,2], labels=LETTERS[1:5], cex= 0.7)
 
 ```
+
 
 ### Prediction and Output
 
