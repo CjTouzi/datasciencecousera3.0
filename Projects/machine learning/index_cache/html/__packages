@@ -10,3 +10,6 @@ rattle
 rpart
 rpart.plot
 knitr
+Rcpp
+Amelia
+ipred
