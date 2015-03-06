@@ -23,7 +23,7 @@ Read [more](http://groupware.les.inf.puc-rio.br/har#ixzz3RDCCaU6P)
 
 ===========================
 
-In this setion, we will load both the training and testing dataset downloaded [here](http://groupware.les.inf.puc-rio.br/static/WLE/WearableComputing_weight_lifting_exercises_biceps_curl_variations.csv). The `53` activity quality related features are extracted both in training (named as `build`) and testing dataset (named as `test`). Then we save 70% of `build` dataset as training set (named as `train`) and the remaining 30% as a validation (named as `val`) dataset. Finally we have three dataset: The `train` for model building. `val` data for out-of-sample error measurement and model selection. `test` for final model test. 
+In this setion, we will load both the training and testing dataset downloaded [here](http://groupware.les.inf.puc-rio.br/static/WLE/WearableComputing_weight_lifting_exercises_biceps_curl_variations.csv). The `53` activity quality related features are extracted both in training (named as `build`) and testing dataset (named as `test`). Then we save 70% of `build` dataset as training set (named as `train`) and the remaining 30% as a validation (named as `val`) dataset. Finally we have three dataset: The `train` for model building. `val` data for out-of-sample error measurement and model selection. `test` for final model test. The `Amelia` R package is a toolbox around missing values. When we check the missing values using missingness map. Since the percentage of missing values in some of the features is too high and it's not appropriate to perform any imputting technics. Therefore, we exclude those features from our predictor list.   
 
 
 ```r
@@ -47,11 +47,34 @@ test[,7:159] <- sapply(test[,7:159], as.numeric)
 build <- build[8:160]
 test <- test[8:160]
 
+
+# check missing values
+library(Amelia)
+```
+
+```
+## Loading required package: Rcpp
+## ## 
+## ## Amelia II: Multiple Imputation
+## ## (Version 1.7.3, built: 2014-11-14)
+## ## Copyright (C) 2005-2015 James Honaker, Gary King and Matthew Blackwell
+## ## Refer to http://gking.harvard.edu/amelia/ for more information
+## ##
+```
+
+```r
+missmap(test, main = "Missingness Map Test")
+```
+
+![](index_files/figure-html/unnamed-chunk-1-1.png) 
+
+```r
 # since test set only contains 20 observations. 
 # remove features that contains NAs in test set
 nas <- is.na(apply(test,2,sum))
 
 test <- test[,!nas]
+dim(test)
 build <- build[,!nas]
 
 # create validation data set using Train 
@@ -153,6 +176,18 @@ vi$importance[1:10,]
 pred1 <- predict(Mod1, val)
 cm1 <- confusionMatrix(pred1, val$classe)
 
+
+# plot roc curves
+# library(pROC)
+# pred1.prob <- predict(Mod1, val, type="prob")
+# pred1.prob$
+# roc1 <-  roc(val$total_accel_belt, pred1.prob$E)
+# plot(roc1, print.thres="best", print.thres.best.method="closest.topleft")
+# coord1 <- coords(roc1, "best", best.method="closest.topleft",
+#                           ret=c("threshold", "accuracy"))
+# coord1
+
+
 # summary of final model
 # Mod1$finalModel
 plot(Mod1)
@@ -186,13 +221,17 @@ plot(varImp(Mod1), top = 10)
 ## accel_belt_z     12.822200 22.184954 18.845292 16.853367  12.001318
 ```
 
-The cross validation graph shows that the model with 27 predictors is selected by the best accuracy. The final model plot tells that the overall error converge at around 100 trees. So it is possible to speed up our algo by tuning the number of trees. The acururacy of the random forest model is 0.99. A list of top ten important variables in the model is given in the summary of the model. 
+The cross validation graph shows that the model with 27 predictors is selected by the best accuracy. The final model plot tells that the overall error converge at around 100 trees. So it is possible to speed up our algo by tuning the number of trees. The acururacy of the random forest model is 0.99. A list of top ten important variables in the model is given regarding each class of activity.  
 
 #### Boosting
 
+In boosting tree model, 
+we can tune over the number of trees and the complexity of the tree. For our data, we will generate a grid of 15 combinations and use the tuneGrid argument to the train function to use these values. 
+
+
 
 ```r
-# boost fitting model
+# simple boost tree fitting model
 # system.time(Mod2 <- train(classe ~ ., 
 #                   method = "gbm", 
 #                   data = train, 
@@ -205,16 +244,101 @@ load("Mod2.RData")
 # out-of-sample errors using validation dataset 
 pred2 <- predict(Mod2, val)
 cm2 <- confusionMatrix(pred2, val$classe)
+
+
+
+## model tuning 
+# gbmGrid <- expand.grid(.interaction.depth=(1:3)*2, .n.trees=(1:5)*20, .shrinkage=.1)
+# bootControl <- trainControl(number=50)
+# set.seed(2)
+# gmbFit<- train(classe ~ ., 
+#                method = "gbm", 
+#                data = train, 
+#                verbose = F, 
+#                trControl = bootControl, 
+#                bag.fraction=0.5,
+#                tuneGrid=gbmGrid)
+# save(gmbFit,file="gmbFit.RData")
+
+load("gmbFit.RData")
+plot(gmbFit)
+```
+
+![](index_files/figure-html/unnamed-chunk-4-1.png) 
+
+```r
+plot(gmbFit,plotType = "level")
+```
+
+![](index_files/figure-html/unnamed-chunk-4-2.png) 
+
+```r
+resampleHist((gmbFit))
+```
+
+![](index_files/figure-html/unnamed-chunk-4-3.png) 
+
+```r
+# out-of-sample errors using validation dataset 
+predgmb <- predict(gmbFit, val)
+cmgmb <- confusionMatrix(pred2, val$classe)
 ```
 
 
-
-### Bagging
-
+#### Bagging
 
 
+```r
+# system.time({Mod3 <- train(classe ~ .,data=train,method="treebag")})
+## 1452.68s
+# save(Mod3,file="Mod3.RData")
+
+load("Mod3.RData")
+pred3 <- predict(Mod3, val)
+```
+
+```
+## Loading required package: ipred
+```
+
+```r
+cm3 <- confusionMatrix(pred3, val$classe)
+varImp(Mod3)
+plot(varImp(Mod3), top = 10)
+```
+
+![](index_files/figure-html/unnamed-chunk-5-1.png) 
+
+```
+## treebag variable importance
+## 
+##   only 20 most important variables shown (out of 52)
+## 
+##                   Overall
+## roll_belt          100.00
+## yaw_belt            72.74
+## magnet_dumbbell_y   66.87
+## pitch_forearm       65.42
+## pitch_belt          64.95
+## roll_forearm        54.19
+## magnet_dumbbell_z   47.31
+## roll_dumbbell       43.96
+## accel_dumbbell_y    39.62
+## magnet_dumbbell_x   36.59
+## magnet_belt_y       33.07
+## accel_belt_z        32.83
+## accel_dumbbell_z    25.35
+## yaw_arm             25.28
+## magnet_belt_z       25.18
+## accel_forearm_x     24.25
+## gyros_belt_z        21.63
+## total_accel_belt    19.91
+## magnet_belt_x       19.84
+## magnet_forearm_z    19.57
+```
 
 
+#### Prediction Model Selection
 
 We plot out both specificity versus sensitivity for both random forest and boosting model.The figure shows random forest is better in both aspects. Therefore, in the final test, we will only use random forest.
 
@@ -231,6 +355,8 @@ text(cm2$byClass[,1]+0.005, cm2$byClass[,2], labels=LETTERS[1:5], cex= 0.7)
 ```
 
 ![](index_files/figure-html/unnamed-chunk-6-1.png) 
+
+
 
 
 ### Prediction and Output
@@ -273,6 +399,18 @@ Mod1$finalModel
 ## D    0    0   28 2223    1 0.012877442
 ## E    0    1    4    4 2516 0.003564356
 ```
+
+### Summary and Futurework
+
+===========================
+
+The aim of this project is to build a accurate prediction model on common incorrect gestures during barbell lifts based on several variables collected by accelerometers. To achieve this, we compare the performce of four methods: classification trees, random forest, booting trees and bagging and finally select random forest as our prediction model due to its high accuracy in the cross validation. 
+
+During the process of model building, we explore a few visulization and metrics tools that help us on data prepararation, model building and tuning and performance charaterizing. For future work, it is possible to further improve the model performance by finetuning the model parameters or deeper understanding features. It is also interesting to use parallel processing technics to accelerate the model.  
+
+
+
+
 
 
 
