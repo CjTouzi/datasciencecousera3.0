@@ -6,7 +6,9 @@ Monday, February 09, 2015
 
 ===========================
 
-This project aims to build a prediction model on common incorrect gestures during barbell lifts based on several variables collected by accelerometers. See more details on the project description [here](http://groupware.les.inf.puc-rio.br/har)(see the section on the Weight Lifting Exercise Dataset). As a result, we report a random forest model with a overall accuracy 0.9946 in the validation set and 100 % accuracy in the testing set. 
+This project aims to build a prediction model on common incorrect gestures during barbell lifts based on several variables collected by accelerometers. See more details on the project description [here](http://groupware.les.inf.puc-rio.br/har)(see the section on the Weight Lifting Exercise Dataset). 
+
+During the model building process, we first eliminate some features with too many missing values and then we test fourmodels including classification tree, random forest, boosting and bagging. By comparing the out-of-sample accuracy, we select random forest as our final model with a overall accuracy 0.9946 in the validation set and 100 % accuracy in the testing set. 
 
 
 ### Background
@@ -19,7 +21,7 @@ Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible t
 Read [more](http://groupware.les.inf.puc-rio.br/har#ixzz3RDCCaU6P)
 
 
-### Feature Extraction & Selection
+### Feature Extraction
 
 ===========================
 
@@ -96,18 +98,7 @@ Here is a summary of the final datasets for model building after feature extract
 
 ===========================
 
-In this setion, we proceed to testing some prediction models using the package caret and select one with the best out-of-sample error as our prediction model. 
-
-
-we build random forest, boosting model and bagging for activity classfication. We compare the overall accuracy of two models and random forest mdoel shows better performance. 
-
-Here shows a table of performance
-
-
-|Method | Accuracy| Kappa | AccuracySD|KappaSD|
-|------|---------|-------|-----------|-----------|
-|Random Forest|0.9806360|0.9754981|0.002020839|0.002560955|
-|Boosting|0.9593798|0.9486100|0.004351168|0.005487971|
+In this setion, our plan is to build classification tree, random forest, boosting model and bagging for activity classfication and then chosse the one with the best the out-of-sample accuracy.
 
 
 #### Classification tree
@@ -223,30 +214,43 @@ plot(varImp(Mod1), top = 10)
 
 The cross validation graph shows that the model with 27 predictors is selected by the best accuracy. The final model plot tells that the overall error converge at around 100 trees. So it is possible to speed up our algo by tuning the number of trees. The acururacy of the random forest model is 0.99. A list of top ten important variables in the model is given regarding each class of activity.  
 
+
 #### Boosting
 
-In boosting tree model, 
-we can tune over the number of trees and the complexity of the tree. For our data, we will generate a grid of 15 combinations and use the tuneGrid argument to the train function to use these values. 
-
+In the boosting tree model, we first use three fold cross-validation 
 
 
 ```r
 # simple boost tree fitting model
+# set.seed(2)
 # system.time(Mod2 <- train(classe ~ ., 
 #                   method = "gbm", 
 #                   data = train, 
 #                   verbose = F, 
 #                   trControl = trainControl(method = "cv", number = 3)))
 # save(Mod2,file="Mod2.RData")
+##145.97s
 
 load("Mod2.RData")
 
 # out-of-sample errors using validation dataset 
 pred2 <- predict(Mod2, val)
 cm2 <- confusionMatrix(pred2, val$classe)
+cm2$overall
+```
+
+```
+##       Accuracy          Kappa  AccuracyLower  AccuracyUpper   AccuracyNull 
+##     0.97315208     0.96603184     0.96869547     0.97713085     0.28445200 
+## AccuracyPValue  McnemarPValue 
+##     0.00000000     0.00361484
+```
 
 
+Also we can tune over the number of trees and the complexity of the tree. For our data, we will generate a grid of 15 combinations and use the tuneGrid argument to the train function to use these values. 
 
+
+```r
 ## model tuning 
 # gbmGrid <- expand.grid(.interaction.depth=(1:3)*2, .n.trees=(1:5)*20, .shrinkage=.1)
 # bootControl <- trainControl(number=50)
@@ -264,28 +268,39 @@ load("gmbFit.RData")
 plot(gmbFit)
 ```
 
-![](index_files/figure-html/unnamed-chunk-4-1.png) 
+![](index_files/figure-html/unnamed-chunk-5-1.png) 
 
 ```r
 plot(gmbFit,plotType = "level")
 ```
 
-![](index_files/figure-html/unnamed-chunk-4-2.png) 
+![](index_files/figure-html/unnamed-chunk-5-2.png) 
 
 ```r
 resampleHist((gmbFit))
 ```
 
-![](index_files/figure-html/unnamed-chunk-4-3.png) 
+![](index_files/figure-html/unnamed-chunk-5-3.png) 
 
 ```r
 # out-of-sample errors using validation dataset 
 predgmb <- predict(gmbFit, val)
 cmgmb <- confusionMatrix(pred2, val$classe)
+cmgmb$overall
 ```
 
+```
+##       Accuracy          Kappa  AccuracyLower  AccuracyUpper   AccuracyNull 
+##     0.97315208     0.96603184     0.96869547     0.97713085     0.28445200 
+## AccuracyPValue  McnemarPValue 
+##     0.00000000     0.00361484
+```
 
-#### Bagging
+We find that the accuracy of both three folds model and fine tune one are the same, 0.973. Therefore,we choose the three folds one as our boosting model. 
+
+#### Bagging            
+
+In the bagging model, we simply use the default setting.
 
 
 ```r
@@ -295,19 +310,13 @@ cmgmb <- confusionMatrix(pred2, val$classe)
 
 load("Mod3.RData")
 pred3 <- predict(Mod3, val)
-```
-
-```
-## Loading required package: ipred
-```
-
-```r
 cm3 <- confusionMatrix(pred3, val$classe)
+# cm3$overall
 varImp(Mod3)
 plot(varImp(Mod3), top = 10)
 ```
 
-![](index_files/figure-html/unnamed-chunk-5-1.png) 
+![](index_files/figure-html/unnamed-chunk-6-1.png) 
 
 ```
 ## treebag variable importance
@@ -338,25 +347,44 @@ plot(varImp(Mod3), top = 10)
 ```
 
 
-#### Prediction Model Selection
+#### Prediction Model Selection         
+
+Now, we summarize the our testing result in one table. We find that random forest has the 
+
+
+```r
+re <- data.frame(Tree=cm0$overall[1], 
+                    rf=cm1$overall[1], 
+                    boosting=cm2$overall[1],
+                    bagging=cm3$overall[1])
+library(knitr)
+re
+```
+
+```
+##               Tree        rf  boosting   bagging
+## Accuracy 0.5493628 0.9984707 0.9731521 0.9974511
+```
+
 
 We plot out both specificity versus sensitivity for both random forest and boosting model.The figure shows random forest is better in both aspects. Therefore, in the final test, we will only use random forest.
-
 
 
 ```r
 # compare the sensitivity and specificity btw random forest and boosting method
 
-par(mfrow=c(1,2))
-plot(cm1$byClass, main="random forest", xlim=c(0.97, 1.005))
+par(mfrow=c(2,2))
+plot(cm0$byClass, main="classification tree", xlim=c(0.4, 1.005), ylim=c(0.7,1))
+text(cm0$byClass[,1]+0.04, cm0$byClass[,2], labels=LETTERS[1:5], cex= 0.7)
+plot(cm1$byClass, main="random forest", xlim=c(0.96, 1.005))
 text(cm1$byClass[,1]+0.003, cm1$byClass[,2], labels=LETTERS[1:5], cex= 0.7)
 plot(cm2$byClass, main="boosting", xlim=c(0.93, 1.001))
 text(cm2$byClass[,1]+0.005, cm2$byClass[,2], labels=LETTERS[1:5], cex= 0.7)
+plot(cm3$byClass, main="bagging", xlim=c(0.97, 1.005))
+text(cm3$byClass[,1]+0.003, cm3$byClass[,2], labels=LETTERS[1:5], cex= 0.7)
 ```
 
-![](index_files/figure-html/unnamed-chunk-6-1.png) 
-
-
+![](index_files/figure-html/unnamed-chunk-8-1.png) 
 
 
 ### Prediction and Output
