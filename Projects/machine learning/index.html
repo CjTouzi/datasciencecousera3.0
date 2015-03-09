@@ -73,7 +73,7 @@ img {
 <li><a href="#feature-extraction">Feature Extraction</a></li>
 <li><a href="#classification-model">Classification Model</a></li>
 <li><a href="#prediction-and-output">Prediction and Output</a></li>
-<li><a href="#summary-and-futurework">Summary and Futurework</a></li>
+<li><a href="#condclusion-and-futurework">Condclusion and Futurework</a></li>
 </ul>
 </div>
 
@@ -81,18 +81,28 @@ img {
 <h3>Summary</h3>
 <p>===========================</p>
 <p>This project aims to build a prediction model on common incorrect gestures during barbell lifts based on several variables collected by accelerometers. See more details on the project description <a href="http://groupware.les.inf.puc-rio.br/har">here</a>(see the section on the Weight Lifting Exercise Dataset).</p>
-<p>During the model building process, we first eliminate some features with too many missing values and then we test fourmodels including classification tree, random forest, boosting and bagging. By comparing the out-of-sample accuracy, we select random forest as our final model with a overall accuracy 0.9946 in the validation set and 100 % accuracy in the testing set.</p>
+<p>To find a accurate precition model, we first exeliminate the redundant feastures with too many missing values. The remain dataset is divide into three part: training set, validation set and test set. The training set is used to train four models including classification tree, random forest, boosting and bagging. The out-of-sample accuracy is measured using validation set. By comparing the out-of-sample accuracy, we select random forest as our final model with a overall accuracy 0.9946. Finally we choose the random forest model in the testing set and we find that the accuracy is 100% in the test set.</p>
 </div>
 <div id="background" class="section level3">
 <h3>Background</h3>
 <p>===========================</p>
+<div id="background-of-data" class="section level4">
+<h4>Background of Data</h4>
 <p>Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. In this project, we use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. Six young health participants were asked to perform one set of 10 repetitions of the Unilateral Dumbbell Biceps Curl in five different fashions: exactly according to the specification (Class A), throwing the elbows to the front (Class B), lifting the dumbbell only halfway (Class C), lowering the dumbbell only halfway (Class D) and throwing the hips to the front (Class E).</p>
 <p>Read <a href="http://groupware.les.inf.puc-rio.br/har#ixzz3RDCCaU6P">more</a></p>
+</div>
+<div id="technical-background" class="section level4">
+<h4>Technical Background</h4>
+<p>In this project, we train four different manchine learning models including classification tree, random forest, boosting and bagging and select the best one according to their accuracy in the validation set. In this section, we make a informal introduction of these four models.</p>
+<p>Classification tree is a method to map observations on different features about of an item to its class labels. Such process is illustrated by a tree-like structure. Each leave of this structure represents the class label of a particular item and each branche represent a conjunction of feature that leads to a label.</p>
+<p>Random forest, boosting and bagging here are developed to solve the problem of overfitting of the simple classification tree method. Random forest grows multiple trees by using only a random subset of features. Boosting is refered to the process of tuning a weaker predictor into a single strong learner, in an iterative fashion. Principally, boosting method tries to fit the residual at each iteration and then add up all the weader predictor at each iteration into one single stronger learner. Bagging also known as bootstrap aggregating, generate a bigger training set by uniformly sampling with replacement from original training set. (Such sampling process is often called boostrapping). Then the fittings of each boostrap sample are combined by voting in the classfication problem.</p>
+</div>
 </div>
 <div id="feature-extraction" class="section level3">
 <h3>Feature Extraction</h3>
 <p>===========================</p>
-<p>In this setion, we will load both the training and testing dataset downloaded <a href="http://groupware.les.inf.puc-rio.br/static/WLE/WearableComputing_weight_lifting_exercises_biceps_curl_variations.csv">here</a>. The <code>53</code> activity quality related features are extracted both in training (named as <code>build</code>) and testing dataset (named as <code>test</code>). Then we save 70% of <code>build</code> dataset as training set (named as <code>train</code>) and the remaining 30% as a validation (named as <code>val</code>) dataset. Finally we have three dataset: The <code>train</code> for model building. <code>val</code> data for out-of-sample error measurement and model selection. <code>test</code> for final model test. The <code>Amelia</code> R package is a toolbox around missing values. When we check the missing values using missingness map. Since the percentage of missing values in some of the features is too high and it’s not appropriate to perform any imputting technics. Therefore, we exclude those features from our predictor list.</p>
+<p>In this setion, we will load both the training and testing dataset downloaded <a href="http://groupware.les.inf.puc-rio.br/static/WLE/WearableComputing_weight_lifting_exercises_biceps_curl_variations.csv">here</a>. The <code>53</code> activity quality related features are extracted both in training (named as <code>build</code>) and testing dataset (named as <code>test</code>). Then we save 70% of <code>build</code> dataset as training set (named as <code>train</code>) and the remaining 30% as a validation (named as <code>val</code>) dataset. Finally we have three dataset: The <code>train</code> for model building. <code>val</code> data for out-of-sample error measurement and model selection. <code>test</code> for final model test.</p>
+<p>The <code>Amelia</code> R package is a toolbox around missing values. The missingness map in <code>Amelia</code> R package helps us to visualize the missing values in our dataset. In the missingness map, we find that the percentage of missing values in some of the features is too high and it’s not appropriate to perform any imputting technics. Therefore, we exclude those features from our predictor list.</p>
 <pre class="r"><code># loading data
 library(caret)
 
@@ -141,7 +151,7 @@ inTrain &lt;- createDataPartition(y=build$classe, p=0.7, list=FALSE)
 train &lt;- build[inTrain,]
 val &lt;- build[-inTrain,]
 rm(inTrain,nas,build)</code></pre>
-<p>Here is a summary of the final datasets for model building after feature extraction.</p>
+<p>Here is a summary of the final datasets for model building after elculding those features</p>
 <table>
 <thead>
 <tr class="header">
@@ -265,7 +275,7 @@ plot(Mod1)</code></pre>
 ## accel_belt_x      4.608242  6.947156  7.917366  1.365975   5.694481
 ## accel_belt_y      2.446740  8.595765  8.302915  8.522882   1.079211
 ## accel_belt_z     12.822200 22.184954 18.845292 16.853367  12.001318</code></pre>
-<p>The cross validation graph shows that the model with 27 predictors is selected by the best accuracy. The final model plot tells that the overall error converge at around 100 trees. So it is possible to speed up our algo by tuning the number of trees. The acururacy of the random forest model is 0.99. A list of top ten important variables in the model is given regarding each class of activity.</p>
+<p>The cross validation graph shows that the model with 27 predictors is selected by the best accuracy. The final model plot tells that the overall error converge at around 100 trees. So it is possible to speed up our algo by tuning the number of trees. The acururacy of the random forest model is 0.99. A list of top ten important variables in the model is also given regarding each class of activity.</p>
 </div>
 <div id="boosting" class="section level4">
 <h4>Boosting</h4>
@@ -375,7 +385,7 @@ plot(varImp(Mod3), top = 10)</code></pre>
 </div>
 <div id="prediction-model-selection" class="section level4">
 <h4>Prediction Model Selection</h4>
-<p>Now, we summarize the our testing result in one table. We find that random forest has the</p>
+<p>Now, we summarize the our testing result in one table. We find that random forest has the highest accuracy.</p>
 <pre class="r"><code>re &lt;- data.frame(Tree=cm0$overall[1], 
                     rf=cm1$overall[1], 
                     boosting=cm2$overall[1],
@@ -384,7 +394,7 @@ library(knitr)
 re</code></pre>
 <pre><code>##               Tree        rf  boosting   bagging
 ## Accuracy 0.5493628 0.9984707 0.9731521 0.9974511</code></pre>
-<p>We plot out both specificity versus sensitivity for both random forest and boosting model.The figure shows random forest is better in both aspects. Therefore, in the final test, we will only use random forest.</p>
+<p>We plot out both specificity versus sensitivity for all four models.The figures show random forest is better in both aspects. Therefore, we select random forest as our final prediction model.</p>
 <pre class="r"><code># compare the sensitivity and specificity btw random forest and boosting method
 
 par(mfrow=c(2,2))
@@ -405,7 +415,7 @@ text(cm3$byClass[,1]+0.003, cm3$byClass[,2], labels=LETTERS[1:5], cex= 0.7)</cod
 <div id="prediction-and-output" class="section level3">
 <h3>Prediction and Output</h3>
 <p>===========================</p>
-<p>In this setion, we use random forest model we built in last setion to predict the test data and output the result into text files.</p>
+<p>In this setion, we use random forest model we built in last setion to predict the test data and output the result into text files. After comparing with the correct results, our random forest model gives 100% prediction accuracy.</p>
 <pre class="r"><code>test$classe &lt;- as.character(predict(Mod1, test))
 
 # write prediction files
@@ -435,8 +445,8 @@ Mod1$finalModel
 ## D    0    0   28 2223    1 0.012877442
 ## E    0    1    4    4 2516 0.003564356</code></pre>
 </div>
-<div id="summary-and-futurework" class="section level3">
-<h3>Summary and Futurework</h3>
+<div id="condclusion-and-futurework" class="section level3">
+<h3>Condclusion and Futurework</h3>
 <p>===========================</p>
 <p>The aim of this project is to build a accurate prediction model on common incorrect gestures during barbell lifts based on several variables collected by accelerometers. To achieve this, we compare the performce of four methods: classification trees, random forest, booting trees and bagging and finally select random forest as our prediction model due to its high accuracy in the cross validation.</p>
 <p>During the process of model building, we explore a few visulization and metrics tools that help us on data prepararation, model building and tuning and performance charaterizing. For future work, it is possible to further improve the model performance by finetuning the model parameters or deeper understanding features. It is also interesting to use parallel processing technics to accelerate the model.</p>
