@@ -1,6 +1,6 @@
 ---
-title: "Activity quality of Weight Lifting Exercises"
-author: "Cheng"
+title: "An example of practical machine learning using R"
+author: "Cheng Juan"
 date: "Monday, February 09, 2015"
 output:
   html_document:
@@ -14,9 +14,11 @@ output:
 
 ===========================
 
-This project aims to build a prediction model on common incorrect gestures during barbell lifts based on several variables collected by accelerometers. See more details on the project description [here](http://groupware.les.inf.puc-rio.br/har)(see the section on the Weight Lifting Exercise Dataset). 
+The R language has a rich set of modeling functions for classfication. And `caret` package tries to generize and simplize the model building process by eliminating syntactical differences between models[1](http://www.jstatsoft.org/v28/i05/paper). In this report, an example will illustrate the application of some of the tools provided in `caret` package and other packages. 
 
-To find a accurate precition model, we first exeliminate the redundant feastures with too many missing values. The remain dataset is divide into three part: training set, validation set and test set. The training set is used to train four models including classification tree, random forest, boosting and bagging. The out-of-sample accuracy is measured using validation set. By comparing the out-of-sample accuracy, we select random forest as our final model with a overall accuracy 0.9946. Finally we choose the random forest model in the testing set and we find that the accuracy is 100% in the test set.
+The dataset using in this report is called  Weight Lifting Exercise Dataset. The aim of the dataset is to build a prediction model on common incorrect gestures during barbell lifts based on several variables collected by accelerometers. See more details on the project description [here](http://groupware.les.inf.puc-rio.br/har)(see the section on the Weight Lifting Exercise Dataset). 
+
+To find a accurate prediction model, we first eliminate the redundant features with too many missing values. The remain dataset is divide into three part: training set, validation set and test set. The training set is used to train four models including classification tree, random forest, boosting and bagging. The out-of-sample accuracy is measured using validation set. By comparing the out-of-sample accuracy, we select random forest as our final model with a overall accuracy 0.9946. Finally we choose the random forest model in the testing set and we find that the accuracy is 100% in the test set.
 
 
 ### Background
@@ -33,11 +35,11 @@ Read [more](http://groupware.les.inf.puc-rio.br/har#ixzz3RDCCaU6P)
 
 #### Technical Background       
 
-In this project, we train four different manchine learning models including classification tree, random forest, boosting and bagging and select the best one according to their accuracy in the validation set. In this section, we make a informal introduction of these four models. 
+In this project, we train four different machine learning models including classification tree, random forest, boosting and bagging and select the best one according to their accuracy in the validation set. In this section, we make a informal introduction of these four models. 
 
-Classification tree is a method to map observations on different features about of an item to its class labels. Such process is illustrated by a tree-like structure. Each leave of this structure represents the class label of a particular item and each branche represent a conjunction of feature that leads to a label. 
+Classification tree is a method to map observations on different features about of an item to its class labels. Such process is illustrated by a tree-like structure. Each leave of this structure represents the class label of a particular item and each branch represent a conjunction of feature that leads to a label. 
 
-Random forest, boosting and bagging here are developed to solve the problem of overfitting of the simple classification tree method. Random forest grows multiple trees by using only a random subset of features. Boosting is refered to the process of tuning a weaker predictor into a single strong learner, in an iterative fashion. Principally, boosting method tries to fit the residual at each iteration and then add up all the weader predictor at each iteration into one single stronger learner. Bagging also known as bootstrap aggregating, generate a bigger training set by uniformly sampling with replacement from original training set. (Such sampling process is often called boostrapping). Then the fittings of each boostrap sample are combined by voting in the classfication problem.          
+Random forest, boosting and bagging here are developed to solve the problem of over-fitting of the simple classification tree method. Random forest grows multiple trees by using only a random subset of features. Boosting is referred to the process of tuning a weaker predictor into a single strong learner, in an iterative fashion. Principally, boosting method tries to fit the residual at each iteration and then add up all the weaker predictor at each iteration into one single stronger learner. Bagging also known as bootstrap aggregating, generate a bigger training set by uniformly sampling with replacement from original training set. (Such sampling process is often called bootstrapping). Then the fittings of each bootstrap sample are combined by voting in the classification problem.          
 
 
 ### Feature Extraction
@@ -45,10 +47,10 @@ Random forest, boosting and bagging here are developed to solve the problem of o
 ===========================
 
 
-In this setion, we will load both the training and testing dataset downloaded [here](http://groupware.les.inf.puc-rio.br/static/WLE/WearableComputing_weight_lifting_exercises_biceps_curl_variations.csv). The `53` activity quality related features are extracted both in training (named as `build`) and testing dataset (named as `test`). Then we save 70% of `build` dataset as training set (named as `train`) and the remaining 30% as a validation (named as `val`) dataset. Finally we have three dataset: The `train` for model building. `val` data for out-of-sample error measurement and model selection. `test` for final model test. 
+In this section, we will load both the training and testing dataset downloaded [here](http://groupware.les.inf.puc-rio.br/static/WLE/WearableComputing_weight_lifting_exercises_biceps_curl_variations.csv). The `53` activity quality related features are extracted both in training (named as `build`) and testing dataset (named as `test`). Then we save 70% of `build` dataset as training set (named as `train`) and the remaining 30% as a validation (named as `val`) dataset. Finally we have three dataset: The `train` for model building. `val` data for out-of-sample error measurement and model selection. `test` for final model test. 
 
 
-The `Amelia` R package is a toolbox around missing values. The missingness map in `Amelia` R package helps us to visualize the missing values in our dataset. In the missingness map, we find that the percentage of missing values in some of the features is too high and it's not appropriate to perform any imputting technics. Therefore, we exclude those features from our predictor list. 
+The `Amelia` R package is a toolbox around missing values. The missingness map in `Amelia` R package helps us to visualize the missing values in our dataset. In the missingness map, we find that the percentage of missing values in some of the features is too high and it's not appropriate to perform any inputting Technics. Therefore, we exclude those features from our predictor list. 
 
 
 ```{r, echo=TRUE, results='hide', cache=TRUE, warning=FALSE}
@@ -94,7 +96,7 @@ rm(inTrain,nas,build)
 
 ```
 
-Here is a summary of the final datasets for model building after elculding those features  
+Here is a summary of the final datasets for model building after excluding those features  
 
 
 |Dataset | # of observations | # of features|
@@ -107,7 +109,7 @@ Here is a summary of the final datasets for model building after elculding those
 
 ===========================
 
-In this setion, our plan is to build classification tree, random forest, boosting model and bagging for activity classfication and then chosse the one with the best the out-of-sample accuracy.
+In this section, our plan is to build classification tree, random forest, boosting model and bagging for activity classification and then choose the one with the best the out-of-sample accuracy.
 
 
 #### Classification tree
@@ -135,7 +137,7 @@ library(knitr)
 
 ```
     
-The model (shows in the tree plot) preforms poorly with a overall acururacy `r round(cm0$overall[1],2)`. Specifically, it fails to indentify the class D (see confusion matrix above) and tends to asign most of cases to the class A. 
+The model (shows in the tree plot) preforms poorly with a overall accuracy `r round(cm0$overall[1],2)`. Specifically, it fails to identify the class D (see confusion matrix above) and tends to assign most of cases to the class A. 
 
 
 #### Random forest
@@ -183,7 +185,7 @@ plot(varImp(Mod1), top = 10)
 
 ```
 
-The cross validation graph shows that the model with 27 predictors is selected by the best accuracy. The final model plot tells that the overall error converge at around 100 trees. So it is possible to speed up our algo by tuning the number of trees. The acururacy of the random forest model is `r round(Mod1$results[2,2],2)`. A list of top ten important variables in the model is also given regarding each class of activity.  
+The cross validation graph shows that the model with 27 predictors is selected by the best accuracy. The final model plot tells that the overall error converge at around 100 trees. So it is possible to speed up our algo by tuning the number of trees. The accuracy of the random forest model is `r round(Mod1$results[2,2],2)`. A list of top ten important variables in the model is also given regarding each class of activity.  
 
 
 #### Boosting
@@ -301,7 +303,7 @@ text(cm3$byClass[,1]+0.003, cm3$byClass[,2], labels=LETTERS[1:5], cex= 0.7)
 
 ===========================
 
-In this setion, we use random forest model we built in last setion to predict the test data and output the result into text files. After comparing with the correct results, our random forest model gives 100% prediction accuracy. 
+In this section, we use random forest model we built in last section to predict the test data and output the result into text files. After comparing with the correct results, our random forest model gives 100% prediction accuracy. 
 
 ```{r, echo=TRUE, results='hold', cache=TRUE, warning=FALSE}
 
@@ -325,12 +327,12 @@ Mod1$finalModel
 
 ===========================
 
-The aim of this project is to build a accurate prediction model on common incorrect gestures during barbell lifts based on several variables collected by accelerometers. To achieve this, we compare the performce of four methods: classification trees, random forest, booting trees and bagging and finally select random forest as our prediction model due to its high accuracy in the cross validation. 
+The aim of this project is to build a accurate prediction model on common incorrect gestures during barbell lifts based on several variables collected by accelerometers. To achieve this, we compare the performance of four methods: classification trees, random forest, booting trees and bagging and finally select random forest as our prediction model due to its high accuracy in the cross validation. 
 
-During the process of model building, we explore a few visulization and metrics tools that help us on data prepararation, model building and tuning and performance charaterizing. For future work, it is possible to further improve the model performance by finetuning the model parameters or deeper understanding features. It is also interesting to use parallel processing technics to accelerate the model.  
+During the process of model building, we explore a few visualization and metrics tools that help us on data preparation, model building and tuning and performance characterizing. For future work, it is possible to further improve the model performance by finetuning the model parameters or deeper understanding features. It is also interesting to use parallel processing Technics to accelerate the model.  
 
 
-
+publish on [rpub](http://rpubs.com/Cjtouzi/64455)
 
 
 
